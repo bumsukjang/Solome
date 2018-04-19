@@ -1,17 +1,74 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Contact
+      계정설정
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
   <ion-list>
-    <ion-list-header>Follow us on Twitter</ion-list-header>
-    <ion-item>
-      <ion-icon name="ionic" item-start></ion-icon>
-      @ionicframework
-    </ion-item>
-  </ion-list>
+		<ion-item>
+			<ion-icon name="person" item-start ></ion-icon>
+			<ion-label>
+				사용자ID
+			</ion-label>
+			<div item-content>
+				{{this.username}}
+			</div>
+		</ion-item>
+		<ion-item>
+			<ion-icon name="lock" item-start ></ion-icon>
+			<ion-label>
+				비밀번호
+			</ion-label>
+			<div item-content>
+				{{this.siteId}}
+			</div>
+		</ion-item>
+		<ion-item>
+			<ion-icon name="pin" item-start ></ion-icon>
+			<ion-label>
+				위치
+			</ion-label>
+			<div item-content>
+				{{this.location}}
+			</div>
+		</ion-item>
+		<ion-item>
+			<ion-icon name="call" item-start ></ion-icon>
+			<ion-label>
+				핸드폰
+			</ion-label>
+			<div item-content>
+				{{this.phone}}
+			</div>
+		</ion-item>
+		<ion-item-divider>
+			SNS 계정 연동
+		</ion-item-divider>
+		<ion-item>
+			<ion-icon name="logo-facebook" item-start ></ion-icon>
+			<ion-label>페이스북</ion-label>
+			<ion-input item-content [(ngModel)]="ch1High" name="ch1High"></ion-input>
+		</ion-item>
+		<ion-item>
+			<ion-icon name="logo-twitter" item-start ></ion-icon>
+			<ion-label>트위터</ion-label>
+			<ion-input item-content [(ngModel)]="ch1Low" name="ch1Low"></ion-input>
+		</ion-item>
+		<ion-item>
+			<ion-icon name="logo-instagram" item-start ></ion-icon>
+			<ion-label>인스타그램</ion-label>
+			<ion-input item-content [(ngModel)]="ch2High" name="ch2High"></ion-input>
+		</ion-item>
+		<!--
+		<ion-item>
+			<ion-icon name="ios-pulse" item-start ></ion-icon>
+			<ion-label>최고습도(RH)</ion-label>
+			<ion-range item-content dualKnobs="true" pin="true" [(ngModel)]="hHighLow" min="-50" max="100" step="0.1" snaps="true"></ion-range>
+		</ion-item>
+		-->
+	</ion-list>
+	<button ion-button full (click)="saveSetting()">저장</button>
 </ion-content>
