@@ -1,0 +1,8 @@
+{
+  "name": "solome",
+  "app_id": "f956f863",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
