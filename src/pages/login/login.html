@@ -1,0 +1,41 @@
+  <ion-content id="login-content" padding="true" class="manual-ios-statusbar-padding" sytle="position: fixed;">
+    <!--
+	<div>
+      <img src="assets/imgs/loginNewLogo_border.png" style="display: block; width: 100%; height: auto; margin-left: auto; margin-right: auto;">
+    </div>
+	<div class="spacer" style="height: 15%;"></div>
+	
+	<div style="height:42%;">
+		<img src="assets/imgs/loginPageBackground_top.png" style="display: block; width: 100%; height: 100%; margin-left: auto; margin-right: auto;">
+    </div>-->
+	<div class="spacer" style="height: 15%;"></div>
+	
+	<form id="login-form1" class="list" (ngSubmit)="login()" #registerForm="ngForm">
+		<ion-list id="login-list1" >
+		
+		<ion-label fixed center style="margin: auto; font-size:40px; color: blue; width: 100%; height: 65px; ">SOLOME</ion-label>
+		<div class="spacer" style="height: 40px;"></div>
+	
+		<ion-item id="login-input1" name="UserID" class="login-input" color="light">
+		  <ion-icon name="person" item-start ></ion-icon>
+		  <ion-label>|</ion-label>
+		  <ion-input type="text" [(ngModel)]="registerCredentials.username" name="registerCredentials.username" required placeholder="username or email"></ion-input>
+		</ion-item>
+		<ion-item id="login-input2" name="password" class="login-input" color="light">
+			<ion-icon name="lock" item-start ></ion-icon>
+			<ion-label>|</ion-label>
+		  <ion-input type="password" [(ngModel)]="registerCredentials.password" name="registerCredentials.password" required placeholder="password"></ion-input>
+		</ion-item>
+		<button ion-button full round color="danger" id="login-input3" type="submit" class="login-input">Login</button>
+		
+		 
+      
+		</ion-list>
+      
+	  <!--
+	  <button ion-button full outline id="login-button2" ng-click="adminLogin()">관리자 로그인</button>-->
+    </form>
+	<button ion-button round outline color="default" class="login-input" (click)="fbLogin()">	 
+		  Login with Facebook
+		</button>
+  </ion-content>
