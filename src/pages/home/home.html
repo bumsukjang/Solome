@@ -5,101 +5,42 @@
   </ion-navbar>
 </ion-header>
 -->
+
+
 <ion-content padding>
-
-	<ion-card>
-		<img src="assets/imgs/profileSample.png"/>
-		<ion-card-content>
-			<ion-card-title>
-				김성규 님
-			</ion-card-title>	
-			<p>클러버, 33세, 서울, 직장인</p>
-		</ion-card-content>
-		<ion-item>
-			<ion-avatar item-start>
-			  <img src="assets/imgs/matcherSample.png">
-			</ion-avatar>
-			<h2>장범석 님의 친구</h2>
-			<p>#유쾌,#재미,#심심할 틈이 없음</p>
-			<button ion-button clear item-end></button>
-		</ion-item>
-		<ion-row>
-		<ion-col col-6>
-			<button ion-button icon-left outline>
-				<ion-icon name="thumbs-up"></ion-icon>
-				interesting
-			</button>
-		</ion-col>
-		<ion-col col-6>
-			<button ion-button icon-left outline color="danger">
-				<ion-icon name="thumbs-down"></ion-icon>
-				No thanks
-			</button>
-		</ion-col>
-	  </ion-row>
-	</ion-card>
-
-	<ion-card>
-		<img src="assets/imgs/profileSample2.png"/>
-		<ion-card-content>
-			<ion-card-title>
-				정혁준 님
-			</ion-card-title>	
-			<p>드라이버, 30세, 서울, 대학원생</p>
-		</ion-card-content>
-		<ion-item>
-			<ion-avatar item-start>
-			  <img src="assets/imgs/matcherSample2.png">
-			</ion-avatar>
-			<h2>권정임 님의 친구</h2>
-			<p>#진지,#성실,#배려가 많음</p>
-			<button ion-button clear item-end></button>
-		</ion-item>
-		<ion-row>
-		<ion-col col-6>
-			<button ion-button icon-left outline>
-				<ion-icon name="thumbs-up"></ion-icon>
-				interesting
-			</button>
-		</ion-col>
-		<ion-col col-6>
-			<button ion-button icon-left outline color="danger">
-				<ion-icon name="thumbs-down"></ion-icon>
-				No thanks
-			</button>
-		</ion-col>
-	  </ion-row>
-	</ion-card>
-	
-	<ion-card>
-		<img src="assets/imgs/profileSample3.png"/>
-		<ion-card-content>
-			<ion-card-title>
-				정의영 님
-			</ion-card-title>	
-			<p>패션스타, 38세, 광주광역시, 대학교직원</p>
-		</ion-card-content>
-		<ion-item>
-			<ion-avatar item-start>
-			  <img src="assets/imgs/matcherSample.png">
-			</ion-avatar>
-			<h2>장범석 님의 친구</h2>
-			<p>#달변,#유머,#맛집 </p>
-			<button ion-button clear item-end></button>
-		</ion-item>
-		<ion-row>
-		<ion-col col-6>
-			<button ion-button icon-left outline>
-				<ion-icon name="thumbs-up"></ion-icon>
-				interesting
-			</button>
-		</ion-col>
-		<ion-col col-6>
-			<button ion-button icon-left outline color="danger">
-				<ion-icon name="thumbs-down"></ion-icon>
-				No thanks
-			</button>
-		</ion-col>
-	  </ion-row>
-	</ion-card>
+	<div *ngFor="let solome of solomes"  >
+		<ion-card >
+			<ion-item >
+				<ion-avatar item-start>
+					<img src="{{solome.friend[0].picture_url}}">
+				</ion-avatar>
+				<h2>{{solome.friend[0].name}}님의 친구</h2>
+				<p>
+					<label *ngFor="let tag of solome.tags">#{{tag}}</label>
+				</p>
+				<button ion-button clear item-end></button>
+			</ion-item>
+			<img src="{{solome.picture_url}}"/>
+			<ion-card-content>
+				<ion-card-title>
+					{{solome.name}} 님
+				</ion-card-title>	
+				<p>{{solome.description}}</p>
+			</ion-card-content>			
+			<ion-row>
+			<ion-col col-6>
+				<button ion-button icon-left outline>
+					<ion-icon name="thumbs-up"></ion-icon>
+					interesting
+				</button>
+			</ion-col>
+			<ion-col col-6>
+				<button ion-button icon-left outline color="danger">
+					<ion-icon name="thumbs-down"></ion-icon>
+					No thanks
+				</button>
+			</ion-col>
+			</ion-row>
+		</ion-card>
+	</div>
 </ion-content>

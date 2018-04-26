@@ -18,6 +18,11 @@
   <!-- cordova.js required for cordova apps (remove if not needed) -->
   <script src="cordova.js"></script>
 
+  <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-firestore.js"></script>
+
+
   <!-- un-comment this code to enable service worker
   <script>
     if ('serviceWorker' in navigator) {
@@ -26,10 +31,26 @@
         .catch(err => console.error('Error', err));
     }
   </script>-->
-
+<script>/*
+	var firebase = require("firebase");
+	//require("firebase/auth");
+	require("firebase/firestore");
+		
+	var config = {
+		apiKey: "AIzaSyC-tH4Mr8L9VsQgugfaSKXUVZBWkYB0jl4",
+		authDomain: "solome-cb476.firebaseapp.com",
+		databaseURL: "https://solome-cb476.firebaseio.com",
+		projectId: "solome-cb476",
+		storageBucket: "solome-cb476.appspot.com",
+		messagingSenderId: "336110829997"
+	};
+	firebase.initializeApp(config);
+	  */
+	  </script>
   <link href="build/main.css" rel="stylesheet">
 
 </head>
+
 <body>
   <!-- Ionic's root component and where the app will load -->
   <ion-app></ion-app>

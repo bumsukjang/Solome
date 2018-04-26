@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import { DateTime } from 'ionic-angular';
 //import { HTTP } from '@ionic-native/http';
 
 /*
@@ -12,92 +13,34 @@ import 'rxjs/add/operator/map';
 */
 
 export class User{
-	username: string;
-	siteID: string;
-	device: string;
+	id: string;
+	passwrod: string;
+	name: string;
+	gender: string;
+	work: string;
+	relationship_status: string;
+	email: string;
 	location: string;
-	phone: string;
-	ch1Name: string;
-	ch1Unit: string;
-	ch1High: number;
-	ch1Low: number;
-	ch2Name: string;
-	ch2Unit: string;
-	ch2High: number;
-	ch2Low: number;
+	languages: string[];
+	age_range: number[];
+	education: string;
+	sports: string[];
+	books: string[];
+	foods: string[];
+	movies: string[];
+	interested_in: string[];
+	hometown: string;
+	inspirational_people: string[];
+	meeting_for: string;
+	religion: string;
+	updated_time: DateTime;
 	
-	constructor(username, siteId, device, location, phone, ch1Name, ch1Unit, ch1High, ch1Low, ch2Name, ch2Unit, ch2High, ch2Low){
-		this.username = username;
-		this.siteID = siteId;
-		this.device =  device ;
-		this.location =  location;
-		this.phone = phone;
-		this.ch1Name = ch1Name;
-		this.ch1Unit = ch1Unit;
-		this.ch1High = ch1High;
-		this.ch1Low = ch1Low;
-		this.ch2Name = ch2Name;
-		this.ch2Unit = ch2Unit;
-		this.ch2High = ch2High;
-		this.ch2Low = ch2Low;
+
+	constructor(id, name){
+		this.id = id;
+		this.name = name;
 	}
-	public getSiteId(){
-		return this.siteID;
-	}
-	
-	public getUsername(){
-		return this.username;
-	}
-	
-	public getDevice(){
-		return this.device;
-	}
-	
-	public getLocation(){
-		return this.location;
-	}
-	
-	public getPhone(){
-		return this.phone;
-	}
-	
-	public getCh1Name(){
-		return this.ch1Name;
-	}
-	public getCh1Unit(){
-		return this.ch1Unit;
-	}
-	public getCh1High(){
-		return this.ch1High;
-	}
-	public setCh1High(data){
-		this.ch1High = data;
-	}
-	public getCh1Low(){
-		return this.ch1Low;
-	}
-	public setCh1Low(data){
-		this.ch1Low = data;
-	}
-	
-	public getCh2Name(){
-		return this.ch2Name;
-	}
-	public getCh2Unit(){
-		return this.ch2Unit;
-	}
-	public getCh2High(){
-		return this.ch2High;
-	}
-	public setCh2High(data){
-		this.ch2High = data;
-	}
-	public getCh2Low(){
-		return this.ch2Low;
-	}
-	public setCh2Low(data){
-		this.ch2Low = data;
-	}
+
 	
 }
 
@@ -134,7 +77,7 @@ export class AuthServiceProvider {
 				
 				// At this point make a request to your backend to make a real check!
 				
-				this.currentUser = new User(credentials.username, jsonData['siteId'], jsonData['device'], jsonData['location'], jsonData['phone'], jsonData['ch1_name'], jsonData['ch1_unit'], jsonData['ch1_high'], jsonData['ch1_low'], jsonData['ch2_name'], jsonData['ch2_unit'], jsonData['ch2_high'], jsonData['ch2_low']);
+				this.currentUser = new User(credentials.username, jsonData['name']);
 				console.log(this.currentUser);
 				console.log('access : ' + access);
 				observer.next(access);

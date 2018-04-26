@@ -4,7 +4,7 @@ import { TabsPage } from '../tabs/tabs';
 
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 
-//import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
+import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 
 //import { HTTP } from '@ionic-native/http';
 
@@ -16,10 +16,16 @@ import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 export class LoginPage {
 	
 	loading: Loading;
-	registerCredentials = { username: '', password: '' };
+	registerCredentials = { username: '_4', password: '_4' };
  
  
-	constructor(private fb: Facebook, public navCtrl: NavController, private alertCtrl: AlertController, private loadingCtrl: LoadingController/*, private http: HTTP, private auth: AuthServiceProvider */) {
+	constructor(
+		private fb: Facebook, 
+		public navCtrl: NavController, 
+		private alertCtrl: AlertController, 
+		private loadingCtrl: LoadingController, 
+		private auth: AuthServiceProvider
+		/*, private http: HTTP */) {
 	  /*if(auth.getUserInfo() != null){
 		  this.navCtrl.setRoot(TabsPage);
 	  }
@@ -48,7 +54,23 @@ export class LoginPage {
 	
 	}
    
-	login(){	 
+	login(){
+		if(this.registerCredentials.username == "_4" && this.registerCredentials.password == "_4"){
+			this.auth.login(this.registerCredentials, { 'data' : '{"logFlag": true,"modified": true,"reqType": 1,"siteId": 10}'}).subscribe(allowed => {
+				console.log("subscribe");
+				console.log(allowed);
+				if (allowed) {
+					//AboutPage.reload();
+					this.navCtrl.setRoot(TabsPage);
+				} else {
+					//this.showError("Access Denied");
+				}
+			},
+			error => {
+				//this.showError(error);
+			});			
+		}
+		/*	 
 		this.showLoading();
 		this.fb.getLoginStatus()
 		.then((res: any) => {
@@ -61,6 +83,7 @@ export class LoginPage {
 		console.log('username : ' + this.registerCredentials.username);
 		console.log('password : ' + this.registerCredentials.password);
 		this.navCtrl.setRoot(TabsPage);
+		*/
 	}
 	
 	showLoading() {

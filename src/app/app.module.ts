@@ -1,4 +1,4 @@
-import { NgModule, ErrorHandler, Injectable, Injector } from '@angular/core';
+import { NgModule, ErrorHandler, Injectable, Injector, Component } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
@@ -14,16 +14,28 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { Facebook } from '@ionic-native/facebook';
 
+import { AngularFirestore } from 'angularfire2/firestore';
+
+import { AngularFireDatabaseModule, AngularFireDatabase } from 'angularfire2/database';
+
+import { AngularFireModule } from 'angularfire2';
+import { environment } from '../environments/environment';
+
+import { AngularFireAuthModule } from 'angularfire2/auth';
+
+import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 
 
 // These are all imports required for Pro Client with Monitoring & Deploy,
 // feel free to merge into existing imports above.
+/*
 import { Pro } from '@ionic/pro';
 
 Pro.init('f956f863', {
   appVersion: '0.0.1'
 })
 
+/*
 @Injectable()
 export class MyErrorHandler implements ErrorHandler {
   ionicErrorHandler: IonicErrorHandler;
@@ -44,6 +56,7 @@ export class MyErrorHandler implements ErrorHandler {
     this.ionicErrorHandler && this.ionicErrorHandler.handleError(err);
   }
 }
+*/
 
 @NgModule({
   declarations: [
@@ -52,12 +65,15 @@ export class MyErrorHandler implements ErrorHandler {
     ContactPage,
     HomePage,
     TabsPage,
-	LoginPage
+	  LoginPage
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
-  ],
+	  AngularFireModule.initializeApp(environment.firebase),
+  	AngularFireDatabaseModule,
+    AngularFireAuthModule,
+    IonicModule.forRoot(MyApp),
+  ],  
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
@@ -70,9 +86,12 @@ export class MyErrorHandler implements ErrorHandler {
   providers: [
     StatusBar,
     SplashScreen,
-	IonicErrorHandler,
-	Facebook,
-    {provide: ErrorHandler, useClass: MyErrorHandler}
+	  IonicErrorHandler,
+  	Facebook,
+  	AngularFirestore,
+    AngularFireDatabase,
+    AuthServiceProvider
+    /*{provide: ErrorHandler, useClass: MyErrorHandler}*/
   ]
 })
 export class AppModule {}
