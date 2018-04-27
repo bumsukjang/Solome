@@ -52,7 +52,7 @@ export class AuthServiceProvider {
   constructor(/*public http: HttpClient, private http: HTTP*/) {
     console.log('Hello AuthServiceProvider Provider');
   }
-
+  
 	public login(credentials, data) {
 		let access = false;
 		let jsonData;
