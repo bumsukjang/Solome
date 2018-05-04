@@ -2,36 +2,65 @@ import { Component } from '@angular/core';
 import { NavController, AlertController, LoadingController, Loading } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs';
 
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
+import { SignupPage } from '../signup/signup';
+
 
 //import { HTTP } from '@ionic-native/http';
 
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html'
+  /* template: `
+    <div *ngIf="afAuth.authState | async as user; else showLogin">
+      <h1>Hello {{ user.displayName }}!</h1>
+      <button (click)="logout()">Logout</button>
+    </div>
+    <ng-template #showLogin>
+      <p>Please login.</p>
+      <button (click)="login()">Login with Google</button>
+    </ng-template>
+  ` */
 })
 
 export class LoginPage {
 	
 	loading: Loading;
-	registerCredentials = { username: '_4', password: '_4' };
- 
+	registerCredentials = { email: 'bsjang@bs-soft.co.kr', password: '1q2w3e4r' };
+	loginForm: FormGroup;
+	loginError: string;
  
 	constructor(
-		private fb: Facebook, 
-		public navCtrl: NavController, 
+		//private fb: Facebook, 
+		public navCtrl: NavController,
 		private alertCtrl: AlertController, 
 		private loadingCtrl: LoadingController, 
-		private auth: AuthServiceProvider
+		private auth: AuthServiceProvider,
+		public fb: FormBuilder
 		/*, private http: HTTP */) {
 	  /*if(auth.getUserInfo() != null){
 		  this.navCtrl.setRoot(TabsPage);
 	  }
 	  */
+	  		this.loginForm = fb.group({
+				email: ['', Validators.compose([Validators.required, Validators.email])],
+				password: ['', Validators.compose([Validators.required, Validators.minLength(6)])]
+			  });
+			  //this.registerCredentials = { email: auth.currentUser.email ,  password: auth.currentUser.password };
 	}
 	
+	showLoading() {
+		this.loading = this.loadingCtrl.create({
+		  content: '로그인 중입니다.',
+		  dismissOnPageChange: true
+		});
+		this.loading.present();
+	  }
+	  
 	showMessage(title, text) {
 		this.loading.dismiss();
 	 
@@ -42,9 +71,9 @@ export class LoginPage {
 		});
 		alert.present();
 	  }
-	  
+	  /*
 	fbLogin(){
-		//this.showLoading();
+		this.showLoading();
 		this.fb.login(['public_profile', 'user_friends', 'email'])
 		.then((res: FacebookLoginResponse) => this.login())
 		.catch(e => this.showMessage('error', e));
@@ -53,8 +82,61 @@ export class LoginPage {
 	//this.fb.logEvent(fb.EVENTS.EVENT_NAME_ADDED_TO_CART);
 	
 	}
-   
+   */
+	logout() {
+		this.auth.signOut();
+	  }
+
+	signup(){
+		console.log("[loginPage] signup");
+		this.navCtrl.push(SignupPage);
+	}
+
+	loginWithFacebook(){
+		this.auth.signInWithFacebook()
+		.then(result => {
+			// The firebase.User instance:
+			var user = result.user;
+			console.log("[login] loginWithFacebook : user");
+			console.log(user);
+			// The Facebook firebase.auth.AuthCredential containing the Facebook
+			// access token:
+			var credential = result.credential;
+			
+		})
+	}
+	loginWithGoogle(){
+		this.auth.signInWithGoogle()
+		.then(result => {
+				// The firebase.User instance:
+			var user = result.user;
+			console.log("[login] loginWithGoogle : user");
+			console.log(user);
+			// The Facebook firebase.auth.AuthCredential containing the Facebook
+			// access token:
+			var credential = result.credential;
+			});
+	}
+
 	login(){
+		this.showLoading();
+		this.auth.signInWithEmail(this.registerCredentials)
+			.then(
+				() => {					
+					// console.log("[loingPage] login : success");
+					// console.log(this.auth.getUserInfo());					
+					this.navCtrl.setRoot(TabsPage);
+				},
+				error => this.loginError = error.message
+			);
+
+
+		//this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+		// new firebase.auth.EmailAuthProvider();
+		// this.afAuth.auth.createUserWithEmailAndPassword("bsjang@bs-soft.co.kr","1q2w3e4r");
+		// this.afAuth.auth.signInWithEmailAndPassword("bsjang@bs-soft.co.kr","1q2w3e4r");
+		
+		/*
 		if(this.registerCredentials.username == "_4" && this.registerCredentials.password == "_4"){
 			this.auth.login(this.registerCredentials, { 'data' : '{"logFlag": true,"modified": true,"reqType": 1,"siteId": 10}'}).subscribe(allowed => {
 				console.log("subscribe");
@@ -70,6 +152,8 @@ export class LoginPage {
 				//this.showError(error);
 			});			
 		}
+		*/
+
 		/*	 
 		this.showLoading();
 		this.fb.getLoginStatus()
@@ -86,13 +170,7 @@ export class LoginPage {
 		*/
 	}
 	
-	showLoading() {
-		this.loading = this.loadingCtrl.create({
-		  content: '로그인 중입니다.',
-		  dismissOnPageChange: true
-		});
-		this.loading.present();
-	  }
+	
   /*
 	if(this.registerCredentials.username == "admin" && this.registerCredentials.password == "admin"){
 		this.auth.login(this.registerCredentials, { 'data' : '{"logFlag": true,"modified": true,"reqType": 1,"siteId": 10}'}).subscribe(allowed => {

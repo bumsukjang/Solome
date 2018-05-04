@@ -8,6 +8,9 @@ import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/login/login';
+import { SignupPage } from '../pages/signup/signup';
+import { UserListPage } from '../pages/user-list/user-list';
+import { ProfilePage } from '../pages/profile/profile';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -18,13 +21,14 @@ import { AngularFirestore } from 'angularfire2/firestore';
 
 import { AngularFireDatabaseModule, AngularFireDatabase } from 'angularfire2/database';
 
+import { AngularFireStorageModule } from 'angularfire2/storage';
 import { AngularFireModule } from 'angularfire2';
 import { environment } from '../environments/environment';
 
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
-
+import { DataServiceProvider } from '../providers/data-service/data-service';
 
 // These are all imports required for Pro Client with Monitoring & Deploy,
 // feel free to merge into existing imports above.
@@ -65,13 +69,17 @@ export class MyErrorHandler implements ErrorHandler {
     ContactPage,
     HomePage,
     TabsPage,
-	  LoginPage
+    LoginPage,
+    SignupPage,
+    UserListPage,
+    ProfilePage
   ],
   imports: [
     BrowserModule,
 	  AngularFireModule.initializeApp(environment.firebase),
   	AngularFireDatabaseModule,
     AngularFireAuthModule,
+    AngularFireStorageModule,
     IonicModule.forRoot(MyApp),
   ],  
   bootstrap: [IonicApp],
@@ -81,7 +89,10 @@ export class MyErrorHandler implements ErrorHandler {
     ContactPage,
     HomePage,
     TabsPage,
-	LoginPage
+    LoginPage,
+    SignupPage,
+    UserListPage,
+    ProfilePage
   ],
   providers: [
     StatusBar,
@@ -90,7 +101,8 @@ export class MyErrorHandler implements ErrorHandler {
   	Facebook,
   	AngularFirestore,
     AngularFireDatabase,
-    AuthServiceProvider
+    AuthServiceProvider,
+    DataServiceProvider
     /*{provide: ErrorHandler, useClass: MyErrorHandler}*/
   ]
 })

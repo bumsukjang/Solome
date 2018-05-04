@@ -9,33 +9,27 @@
 -->
 
 <ion-content padding>
-	<ion-item-divider color="light">공개된 친구</ion-item-divider>
-	<ion-list>
-		<ion-item>
-			<ion-avatar item-start>
-			  <img src="assets/imgs/profileSample.png">
-			</ion-avatar>
-			<h2>김성규 님 <ion-badge item-end>소개요청 10</ion-badge></h2>
-			<p>여자1 : 꼭 소개해주세요</p>
-			<p>여자2 : 이번주 금요일 저 시간됩니다!</p>
-			<p>여자3 : 그냥 전화번호 먼저 알려주세요</p>
-			<ion-grid>
-				<ion-row>
-					<ion-col col-6>
-						<button ion-button outline block >
-							연락하기
-						</button>
-					</ion-col>
-					<ion-col col-6>
-						<button ion-button outline block color="danger">
-							삭제하기
-						</button>	
-					</ion-col>
-				</ion-row>
-			</ion-grid>
-		</ion-item>
-	  
-		<ion-item>
+	<ion-item-divider color="light">공개친구</ion-item-divider>
+	<ion-list>	
+		<div *ngFor="let connection of connections; let i = index">					
+			<ion-item *ngIf="connection.isShow && connection.status == 'agreed'">			
+				<ion-avatar item-start>
+					<img src="{{connection.picture_url?connection.picture_url:'assets/imgs/person.png'}}">
+				</ion-avatar>
+				<ion-label>
+						<h2>{{connection.name}} 님 <!-- <ion-badge item-end>소개요청</ion-badge> --></h2>
+						<p>{{connection.email}}</p>
+				</ion-label>				
+				<ion-toggle [(ngModel)]="connection.isShow" (ionChange)="setShow(connection)"></ion-toggle>
+			</ion-item>
+			<ion-item>
+				<ion-label *ngFor="let request of connection.requests; let i = index">{{request.status}}</ion-label>
+			</ion-item>
+		</div>
+	</ion-list>
+		
+		
+		<!-- <ion-item>
 			<ion-avatar item-start>
 			  <img src="assets/imgs/profileSample2.png">
 			</ion-avatar>
@@ -80,11 +74,39 @@
 					</ion-col>
 				</ion-row>
 			</ion-grid>
-		</ion-item>
-	  
-	</ion-list>
+		</ion-item> -->
 	<ion-item-divider color="light">미공개 친구</ion-item-divider>
 	<ion-list>
+		<div *ngFor="let connection of connections; let i = index">					
+			<ion-item *ngIf="!connection.isShow && connection.status == 'agreed'">			
+				<ion-avatar item-start>
+					<img src="{{connection.picture_url?connection.picture_url:'assets/imgs/person.png'}}">
+				</ion-avatar>
+				<ion-label>
+						<h2>{{connection.name}} 님 <!-- <ion-badge item-end>소개요청</ion-badge> --></h2>
+						<p>{{connection.email}}</p>
+				</ion-label>				
+				<ion-toggle [(ngModel)]="connection.isShow" (ionChange)="setShow(connection)"></ion-toggle>
+			</ion-item>	
+		</div>
+	</ion-list>
+
+	<ion-item-divider color="light">친구 등록해달라고 요청한 사람</ion-item-divider>
+	<ion-list>
+		<div *ngFor="let connection of connections; let i = index">					
+			<ion-item *ngIf="connection.status == 'received'">			
+				<ion-avatar item-start>
+					<img src="{{connection.picture_url?connection.picture_url:'assets/imgs/person.png'}}">
+				</ion-avatar>
+				<ion-label>
+						<h2>{{connection.name}} 님</h2>
+						<p>{{connection.email}}</p>
+				</ion-label>				
+				<button ion-button item-end  (click)="agreeFriend(connection)">친구추가</button>
+			</ion-item>	
+		</div>
+	</ion-list>
+	<!-- <ion-list>
 	  <ion-item>
 		<ion-avatar item-start>
 		  <img src="assets/imgs/matcherSample2.png">
@@ -106,13 +128,13 @@
 		</ion-grid>
 	  </ion-item>
 	  
-	</ion-list>
+	</ion-list> -->
 	
 	<ion-grid>
 		<ion-row>
 			<ion-col col-6>
-				<button ion-button block >
-				친구 초청하기
+				<button ion-button block (click)="addFriend()">
+				친구 추가하기 
 				</button>
 			</ion-col>
 			<ion-col col-6>
