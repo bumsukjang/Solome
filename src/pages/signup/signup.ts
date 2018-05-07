@@ -1,3 +1,4 @@
+import { DataServiceProvider } from './../../providers/data-service/data-service';
 import { TabsPage } from './../tabs/tabs';
 import { ProfilePage } from './../profile/profile';
 
@@ -24,7 +25,7 @@ export class SignupPage {
 		fb: FormBuilder,
     private navCtrl: NavController,
     private auth: AuthServiceProvider,
-    public db:AngularFireDatabase) {
+    public db:DataServiceProvider) {
 		this.form = fb.group({
 			email: ['', Validators.compose([Validators.required, Validators.email])],
       password: ['', Validators.compose([Validators.required, Validators.minLength(6)])],
@@ -47,11 +48,8 @@ export class SignupPage {
       (user) => {
         this.auth.signInWithEmail(this.credentials)
 		  	.then(() => {		
-            this.db.object('users/'+user.uid).set({
-              id: user.uid,
-              email : this.credentials.email
-            }).then(()=>{
-              this.navCtrl.push(ProfilePage);
+            this.db.singUp(user).then(()=>{
+              this.navCtrl.push(TabsPage);
             });
             //this.navCtrl.setRoot(TabsPage);
           },

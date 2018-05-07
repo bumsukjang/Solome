@@ -32,6 +32,6 @@ export class ContactPage {
 
   logout(){
     this.auth.logout();
-    this.navCtrl.setRoot(LoginPage);
+    this.navCtrl.parent.viewCtrl._nav.setRoot(LoginPage);
   }
 }

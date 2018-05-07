@@ -14,21 +14,16 @@
 		<div *ngFor="let connection of connections; let i = index">					
 			<ion-item *ngIf="connection.isShow && connection.status == 'agreed'">			
 				<ion-avatar item-start>
-					<img src="{{connection.picture_url?connection.picture_url:'assets/imgs/person.png'}}">
+					<img src="{{connection.profile.picture_url?connection.profile.picture_url:'assets/imgs/person.png'}}">
 				</ion-avatar>
 				<ion-label>
-						<h2>{{connection.name}} 님 <!-- <ion-badge item-end>소개요청</ion-badge> --></h2>
-						<p>{{connection.email}}</p>
+						<h2>{{connection.profile.name}} 님 <ion-badge item-end>{{connection.friends.length}}</ion-badge> </h2>
+						<p>{{connection.profile.email}}</p>
 				</ion-label>				
 				<ion-toggle [(ngModel)]="connection.isShow" (ionChange)="setShow(connection)"></ion-toggle>
 			</ion-item>
-			<ion-item>
-				<ion-label *ngFor="let request of connection.requests; let i = index">{{request.status}}</ion-label>
-			</ion-item>
 		</div>
 	</ion-list>
-		
-		
 		<!-- <ion-item>
 			<ion-avatar item-start>
 			  <img src="assets/imgs/profileSample2.png">
@@ -80,11 +75,11 @@
 		<div *ngFor="let connection of connections; let i = index">					
 			<ion-item *ngIf="!connection.isShow && connection.status == 'agreed'">			
 				<ion-avatar item-start>
-					<img src="{{connection.picture_url?connection.picture_url:'assets/imgs/person.png'}}">
+					<img src="{{connection.profile.picture_url?connection.profile.picture_url:'assets/imgs/person.png'}}">
 				</ion-avatar>
 				<ion-label>
-						<h2>{{connection.name}} 님 <!-- <ion-badge item-end>소개요청</ion-badge> --></h2>
-						<p>{{connection.email}}</p>
+						<h2>{{connection.profile.name}} 님 <ion-badge item-end>{{connection.friends.length}}</ion-badge></h2>
+						<p>{{connection.profile.email}}</p>
 				</ion-label>				
 				<ion-toggle [(ngModel)]="connection.isShow" (ionChange)="setShow(connection)"></ion-toggle>
 			</ion-item>	
@@ -96,11 +91,11 @@
 		<div *ngFor="let connection of connections; let i = index">					
 			<ion-item *ngIf="connection.status == 'received'">			
 				<ion-avatar item-start>
-					<img src="{{connection.picture_url?connection.picture_url:'assets/imgs/person.png'}}">
+					<img src="{{connection.profile.picture_url?connection.profile.picture_url:'assets/imgs/person.png'}}">
 				</ion-avatar>
 				<ion-label>
-						<h2>{{connection.name}} 님</h2>
-						<p>{{connection.email}}</p>
+						<h2>{{connection.profile.name}} 님 <ion-badge item-end>{{connection.friends.length}}</ion-badge></h2>
+						<p>{{connection.profile.email}}</p>
 				</ion-label>				
 				<button ion-button item-end  (click)="agreeFriend(connection)">친구추가</button>
 			</ion-item>	
@@ -133,13 +128,13 @@
 	<ion-grid>
 		<ion-row>
 			<ion-col col-6>
-				<button ion-button block (click)="addFriend()">
+				<button ion-button outline block (click)="addFriend()">
 				친구 추가하기 
 				</button>
 			</ion-col>
 			<ion-col col-6>
-				<button ion-button block >
-				친구목록 가져오기
+				<button ion-button outline color="secondary" block >
+				친구 초대하기
 				</button>
 			</ion-col>
 		</ion-row>

@@ -1,3 +1,4 @@
+import { DataServiceProvider } from './../../providers/data-service/data-service';
 import { UserListPage } from '../user-list/user-list';
 import { Component, NgZone } from '@angular/core';
 import { NavController } from 'ionic-angular';
@@ -15,7 +16,7 @@ import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 export class AboutPage {
   connections = new Array();
   constructor(public navCtrl: NavController
-    , public db: AngularFireDatabase
+    , public db: DataServiceProvider
     , public auth: AuthServiceProvider) {
       this.showConnections();
   }
@@ -23,8 +24,9 @@ export class AboutPage {
     console.log("setShow()");
     console.log(connection);
     console.log(this.connections);
+    this.db.setShow(this.auth.currentUser.id, connection);
     //this.connections.forEach(connection =>{
-    this.db.object("friendLists/"+this.auth.currentUser.id+"/"+connection.id).update({isShow:connection.isShow});      
+    //this.db.object("friendLists/"+this.auth.currentUser.id+"/"+connection.id).update({isShow:connection.isShow});      
     //});
   }
 
@@ -35,17 +37,28 @@ export class AboutPage {
   
 
   agreeFriend(connection){
-    connection.status = "agreed";
-    this.db.object("friendLists/"+this.auth.currentUser.id+"/"+connection.id).update({
-      status:connection.status
-    });
-    this.db.object("friendLists/"+connection.id+"/"+this.auth.currentUser.id).update({
-      status:connection.status
-    });
+    // connection.status = "agreed";
+    // this.db.object("friendLists/"+this.auth.currentUser.id+"/"+connection.id).update({
+    //   status:connection.status
+    // });
+    // this.db.object("friendLists/"+connection.id+"/"+this.auth.currentUser.id).update({
+    //   status:connection.status
+    // });
   }
 
   showConnections(){
-    this.connections = new Array();    
+    let friends = this.db.getFriendList(this.auth.currentUser.id);
+    friends.forEach(friend =>{
+      friend.profile = this.db.getUserProfile(friend.id);
+      friend.friends = this.db.getFriendList(friend.id);
+    })
+    console.log(friends);
+    this.connections = friends;
+    console.log("show connections");
+    console.log(this.connections);
+    
+    /* this.connections = new Array();    
+    
       console.log('[connections] showConnections');
       if(this.auth.currentUser){
         console.log(this.auth.currentUser.id);
@@ -98,6 +111,6 @@ export class AboutPage {
       }
       
         console.log("[connections]");
-        console.log(this.connections);
-  };
+        console.log(this.connections); */
+  }
 }

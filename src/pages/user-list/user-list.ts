@@ -1,3 +1,4 @@
+import { DataServiceProvider } from './../../providers/data-service/data-service';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
@@ -25,32 +26,23 @@ export class UserListPage {
   friendList = new Array();
   appliedFriendList = new Array();
   constructor(public navCtrl: NavController, public navParams: NavParams
-    , public db: AngularFireDatabase
+    , public db: DataServiceProvider
     , public auth: AuthServiceProvider) {
-      db.list('users').valueChanges().subscribe(val => {     
-        console.log("userlistpage");
-        console.log(auth.currentUser);   
-        db.list('friendLists/'+auth.currentUser.id).snapshotChanges().map(actions => {
-          return actions.map(action => ({
-            id: action.key,
-            ...action.payload.val()
-          }));
-        }).subscribe(friends =>{
-          this.friendList = new Array();
-          friends.forEach(friend => {
-            if(friend.status == "agreed"){
-              this.friendList.push(friend.id);
-            } else {
-              this.appliedFriendList.push(friend.id);              
-            }
-            
-          })
-          this.friendList.push(auth.currentUser.id);
-          console.log(this.friendList);
-        });
-        //this.userList = val;
-        this.originalUserList = val;
+      db.getFriendList(this.auth.currentUser.id).forEach(friend =>{
+        this.friendList.push(friend.id);
+      })
+      this.originalUserList = db.getUsersList().filter((user) =>{
+        if(user != null){
+          if(user.status == "applied"){
+            this.appliedFriendList.push(user);
+          }
+          return user.id != this.auth.currentUser.id;
+        }
       });
+      console.log("applied friend list");
+      console.log(this.appliedFriendList);
+      console.log("friend list");
+      console.log(this.friendList);
   }
 
   getUsers(ev: any) {
@@ -74,14 +66,14 @@ export class UserListPage {
   }
 
   applyFriend(fid){
-    this.db.object("friendLists/"+this.auth.currentUser.id+"/"+fid).set({
-      status:"applied",
-      isShow:false
-    });
-    this.db.object("friendLists/"+fid+"/"+this.auth.currentUser.id).set({
-      status:"received",
-      isShow:false
-    });
+    // this.db.object("friendLists/"+this.auth.currentUser.id+"/"+fid).set({
+    //   status:"applied",
+    //   isShow:false
+    // });
+    // this.db.object("friendLists/"+fid+"/"+this.auth.currentUser.id).set({
+    //   status:"received",
+    //   isShow:false
+    // });
   }
 
 

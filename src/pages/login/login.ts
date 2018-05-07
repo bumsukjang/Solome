@@ -1,3 +1,4 @@
+import { DataServiceProvider } from './../../providers/data-service/data-service';
 import { Component } from '@angular/core';
 import { NavController, AlertController, LoadingController, Loading } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs';
@@ -40,7 +41,8 @@ export class LoginPage {
 		private alertCtrl: AlertController, 
 		private loadingCtrl: LoadingController, 
 		private auth: AuthServiceProvider,
-		public fb: FormBuilder
+		public fb: FormBuilder,
+		public db: DataServiceProvider
 		/*, private http: HTTP */) {
 	  /*if(auth.getUserInfo() != null){
 		  this.navCtrl.setRoot(TabsPage);
@@ -122,12 +124,17 @@ export class LoginPage {
 		this.showLoading();
 		this.auth.signInWithEmail(this.registerCredentials)
 			.then(
-				() => {					
-					// console.log("[loingPage] login : success");
-					// console.log(this.auth.getUserInfo());					
+				(user) => {					
+					console.log("[loingPage] login : success");
+					console.log(user);	
+					
+					this.auth.updateUser(this.db.getUserProfile(user.id));				
 					this.navCtrl.setRoot(TabsPage);
 				},
-				error => this.loginError = error.message
+				(error) => {
+					this.loginError = error.message;
+					this.loading.dismiss();
+				}
 			);
 
 

@@ -76,32 +76,11 @@ export class AuthServiceProvider {
 					}
 				});
 			}
-		});
-		this.signOut();
-		
-	
+		});	
 	}
 	
-	public updateUser(user) {
-		this.currentUser = user;		
-		/* if (user) {
-			console.log("[auth-service] user state changed : user");
-			console.log(user);
-			if(!this.currentUser){
-				this.currentUser = new User(user.uid, user.displayName);
-			} else {
-				this.currentUser.id = user.uid; 
-				this.currentUser.name = user.displayName; 
-			}
-			this.currentUser.email = user.email;
-			this.currentUser.photoUrl = user.photoURL;
-			//this.currentUser.emailVerified = user.emailVerified;
-			console.log("getuserInfo");
-			//this.db.list('users/'+this.currentUser.id).valueChanges().subscribe(console.log);
-		
-		} else {
-			console.log("none user");
-		} */
+	public updateUser(userProfile) {
+		this.currentUser.profile = userProfile;
 	}
 
 	public login(credentials, data) {
@@ -178,7 +157,7 @@ export class AuthServiceProvider {
 			observer.complete();
 		});
 	}
-	get authenticated(): boolean{
+	authenticated(): boolean{
 		return this.currentUser !== null;
 	}
 
@@ -186,9 +165,8 @@ export class AuthServiceProvider {
 		return this.currentUser && this.currentUser.email;
 	}
 
-	
-
 	public signOut(): Promise<void>{
+		this.updateUser(null);
 		return this.afAuth.auth.signOut();
 	}
 }

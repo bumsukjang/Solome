@@ -17,7 +17,7 @@
   <ion-searchbar (ionInput)="getUsers($event)" placeholder="E-mail"></ion-searchbar>
   <ion-list>
     <div *ngFor="let user of userList">					
-      <ion-item *ngIf="friendList.indexOf(user.id) == -1">			
+      <ion-item >			
         <ion-avatar item-start>
           <img src="{{user.picture_url?user.picture_url:'assets/imgs/person.png'}}">
         </ion-avatar>
@@ -25,7 +25,7 @@
             <h2>{{user.name}} 님</h2>
             <p>{{user.email}}</p>
         </ion-label>				
-        <button ion-button clear item-end [disabled]="appliedFriendList.indexOf(user.id) != -1" (click)="applyFriend(user.id)">{{appliedFriendList.indexOf(user.id)!=-1?"요청됨":"추가요청하기"}}</button>
+        <button ion-button clear item-end [disabled]="appliedFriendList.indexOf(user.id) != -1 || friendList.indexOf(user.id) != -1" (click)="applyFriend(user.id)">{{appliedFriendList.indexOf(user.id)!=-1?"요청됨":friendList.indexOf(user.id)!=-1?"등록됨":"추가"}}</button>
       </ion-item>	
     </div>
   </ion-list>

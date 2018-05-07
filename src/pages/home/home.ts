@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, ToastController } from 'ionic-angular';
 
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 
@@ -16,19 +16,21 @@ import { DataServiceProvider } from './../../providers/data-service/data-service
 })
 
 export class HomePage {
-	solomes;
+	solomes = new Array();
 	requests;
-	
+
 	friendIds = new Array();;
 	solomeIds = new Array();;
 
 	showLogs: boolean = true;
+	showToast: boolean = false;
 
   constructor(/*private fb: Facebook, */
 	public navCtrl: NavController
 	, public db: AngularFireDatabase
 	, public auth: AuthServiceProvider
-	, public data: DataServiceProvider) {
+	, public data: DataServiceProvider
+	, public toastCtrl: ToastController) {
 		/* auth.afAuth.auth.onAuthStateChanged(user => {
 			if(user){
 				this.db.object('users/'+user.uid).valueChanges().subscribe(newUser =>{
@@ -98,107 +100,50 @@ export class HomePage {
   }
 		  
   ionViewWillEnter(){
-	console.log("home ionViewWillEnter");
-	console.log(this.auth.currentUser);
-	if(this.auth.currentUser != null){
-		console.log('[home.ts]-current user');
+		console.log("home ionViewWillEnter");
 		console.log(this.auth.currentUser);
-		this.showSolomes();
-	  }
+		if(this.auth.currentUser != null){
+			if(!this.auth.currentUser.profile){
+				this.toastCtrl.create({
+					message: "사용자 정보를 추가하세요",
+					duration: 3000,
+					position: 'bottom'
+				}).present();
+			}
+			console.log('[home.ts]-current user');
+			console.log(this.auth.currentUser);
+			this.showSolomes();
+		}
+
   }
 
   noWantShow(solome){
 	console.log(solome);
   }
 
-  request(friend, solome){
+  request(solome){
 	// console.log(solome);
 	// this.db.object('friendLists/'+solome.friend[0].id+'/'+solome.id+'/requests/'+this.auth.currentUser.id).update({
 	// 	status: "request"
 	// })
-	this.data.requestMeeting(this.auth.currentUser.id, friend.id, solome.id);
+	console.log(solome);
+	//this.data.requestMeeting(this.auth.currentUser.id, solome.friend.id, solome.id);
   }
 
 	showSolomes(){
-
-		this.solomes = this.data.getSoloemeList;
-		this.requests = this.data.getAllRequestList(this.auth.currentUser.id);
-		
-		/* console.log('[home.ts] showSolomes() of'+ this.auth.currentUser);
-		this.db.list('friendLists/'+this.auth.currentUser.id).snapshotChanges().map(actions => {
-			return actions.map(action => ({
-				id: action.key,
-				...action.payload.val()
-			}));
-		}).subscribe(friends =>{
-			//this.users = users;
-			console.log(friends);
-			friends.forEach(friend => {				
-				console.log("friend status");
-				console.log(friend.status);
-				if(friend.status == "agreed"){
-					this.db.list('users', ref => ref.orderByChild('id').equalTo(friend.id))
-					.valueChanges().subscribe(friendInfo => {
-						this.db.list('friendLists/'+friend.id).snapshotChanges().map(actions => {
-							return actions.map(action => ({
-								id: action.key,
-								...action.payload.val()
-							}));
-						}).subscribe(solomes =>{
-							//this.users = users;
-							//console.log(friends);
-							if(this.solomes == null || this.solomes.length != solomes.length){
-								this.solomes = null;
-								solomes.forEach(solome => {
-									let isFriend = false;								
-									friends.forEach(friend => {
-										if(friend.id == solome.id){									
-											isFriend = true;
-										}									
-									});
-									console.log("solome");
-									console.log(solome);
-									if(solome.isShow && solome.id != this.auth.currentUser.id && !isFriend){							
-										console.log("[home.ts - constructor()] show solome("+solome.id+") from " + friend.id);
-										this.solomeIds.push(solome.id);	
-										this.db.list('users', ref => ref.orderByChild('id').equalTo(solome.id))
-										.snapshotChanges(['child_added']).map(solomeInfos => {
-											return solomeInfos.map(soloemInfo => ({
-												id: soloemInfo.key,
-												friend: friendInfo,
-												...soloemInfo.payload.val()
-											}));
-										}).subscribe(solomeInfo => {
-											console.log("[home.ts - constructor()] show solomeInfo("+solome.id+") from " + friend.id);
-											console.log(solomeInfo);
-											if(this.solomes == null){
-												this.solomes = solomeInfo;
-											} else {
-												console.log("[home.ts - constructor()] solome info");
-												console.log(solomeInfo[0]);
-												this.solomes.push(solomeInfo[0]);
-											}
-											
-											if(this.showLogs){
-												console.log("[home.ts - constructor()] solomes");
-												console.log(this.solomes);
-											}
-										});
-									}
-								});
-							}
-						});
-					});
-				}
-				
-			});
-			
-			if(this.showLogs){
-				console.log("[home.ts - constructor()] solome ids");
-				console.log(this.solomeIds);
-				console.log("[home.ts - constructor()] solomes");
-				console.log(this.solomes);
+		console.log("home.ts - showSolomes - this.solomes from "+this.auth.currentUser.id);
+		this.solomes = this.data.getSolomeList(this.auth.currentUser.id);
+		if(this.solomes.length == 0){
+			if(!this.showToast){
+				this.toastCtrl.create({
+					message: "솔로미가 없습니다.친구를 추가하거나 새로운 친구를 초대하세요.",
+					duration: 3000,
+					position: 'middle'
+				}).present();
+				this.showToast = true;
 			}
-		}); */
+		}
+		
+		//console.log(this.solomes);
 	}
 }

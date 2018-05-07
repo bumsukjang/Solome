@@ -7,59 +7,51 @@
 </ion-header>
 
 <ion-content>
+	
   <ion-list>
 		<ion-item-divider>
-				필수정보
+				필수정보 
 		</ion-item-divider>
 		<ion-item>
-			<ion-icon name="person" item-start ></ion-icon>
-			<ion-label>
+			<ion-label floating>
 				E-mail
 			</ion-label>
-			<div item-content>
-				{{this.user.email}}
-				<button ion-button (click)="logout()">로그아웃</button>
-			</div>
-			
+			<ion-input item-content disable="true" [(ngModel)]="user.email" name="user.email"></ion-input>	
+						
 		</ion-item>		
 		<ion-item>
-			<ion-icon name="person" item-start ></ion-icon>
-			<ion-label>
+			<ion-label floating>
 				이름
 			</ion-label>
 			<ion-input item-content [(ngModel)]="user.name" name="user.name"></ion-input>			
 		</ion-item>		
 		<ion-item>
-			<ion-icon name="person" item-start ></ion-icon>
-			<ion-label>
+			<ion-label floating>
 				성별
 			</ion-label>
 			<ion-input item-content [(ngModel)]="user.gender" name="user.gender"></ion-input>			
 		</ion-item>		
 		<ion-item>
-			<ion-icon name="person" item-start ></ion-icon>
-			<ion-label>
+			<ion-label floating>
 				나이
 			</ion-label>
 			<ion-input item-content [(ngModel)]="user.age" name="user.age"></ion-input>			
 		</ion-item>		
 		<ion-item>
-			<ion-icon name="person" item-start ></ion-icon>
-			<ion-label>
+			<ion-label floating>
 				상태
 			</ion-label>
 			<ion-input item-content [(ngModel)]="user.relationship_status" name="user.relationship_status"></ion-input>			
 		</ion-item>
 		<ion-item>
-			<ion-icon name="person" item-start ></ion-icon>
-			<ion-label>
+			<ion-label floating>
 				자기소개
 			</ion-label>
 			<ion-input item-content [(ngModel)]="user.description" name="user.description"></ion-input>			
 		</ion-item>
 		<ion-item>
-			<ion-icon name="person" item-start ></ion-icon>
-			<ion-label>
+			
+			<ion-label floating>
 				만남목적
 			</ion-label>
 			<ion-input item-content [(ngModel)]="user.meeting_for" name="user.meeting_for"></ion-input>
@@ -68,68 +60,70 @@
 				추가정보
 		</ion-item-divider>
 		<ion-item>
-			<ion-icon name="pin" item-start ></ion-icon>
-			<ion-label>
+			<ion-label floating>
 				거주지
 			</ion-label>
 			<ion-input item-content [(ngModel)]="user.location" name="user.location"></ion-input>
 		</ion-item>
 		<ion-item>
-			<ion-icon name="call" item-start ></ion-icon>
-			<ion-label>
+			
+			<ion-label floating>
 				핸드폰 번호
 			</ion-label>
 			<ion-input item-content [(ngModel)]="user.phoneNumber" name="user.phoneNumber"></ion-input>
 		</ion-item>
 		<ion-item>
-			<ion-icon name="call" item-start ></ion-icon>
-			<ion-label>
+			
+			<ion-label floating>
 				언어
 			</ion-label>
 			<ion-input item-content [(ngModel)]="user.languages" name="user.languages"></ion-input>
 		</ion-item>
 		<ion-item>
-			<ion-icon name="call" item-start ></ion-icon>
-			<ion-label>
+			
+			<ion-label floating>
 				나이대
 			</ion-label>
 			<ion-input item-content [(ngModel)]="user.age_ragnes" name="user.age_ragnes"></ion-input>
 		</ion-item>
 		<ion-item>
-			<ion-icon name="call" item-start ></ion-icon>
-			<ion-label>
+			
+			<ion-label floating>
 				종교
 			</ion-label>
 			<ion-input item-content [(ngModel)]="user.religion" name="user.religion"></ion-input>
 		</ion-item>	
 		<ion-item>
-			<ion-icon name="call" item-start ></ion-icon>
-			<ion-label>
+			
+			<ion-label floating>
 				직장
 			</ion-label>
 			<ion-input item-content [(ngModel)]="user.work" name="user.work"></ion-input>
 		</ion-item>	
 		<ion-item>
-			<ion-icon name="call" item-start ></ion-icon>
-			<ion-label>
+			
+			<ion-label floating>
 				학력
 			</ion-label>
 			<ion-input item-content [(ngModel)]="user.education" name="user.education"></ion-input>
 		</ion-item>	
 		<ion-item>
-			<ion-icon name="call" item-start ></ion-icon>
-			<ion-label>
+			
+			<ion-label floating>
 				관심사
 			</ion-label>
 			<ion-input item-content [(ngModel)]="user.interested_in" name="user.interested_in"></ion-input>
 		</ion-item>	
 		<ion-item>
-			<ion-icon name="call" item-start ></ion-icon>
-			<ion-label>
+			
+			<ion-label floating>
 				고향(본가)
 			</ion-label>
 			<ion-input item-content [(ngModel)]="user.hometown" name="user.hometown"></ion-input>
-		</ion-item>			
+		</ion-item>		
+		
+		<button ion-button block outline (click)="saveSetting()">저장</button>
+		<button ion-button block outline color="dark" (click)="logout()">로그아웃</button>	
 	</ion-list>
-	<button ion-button full (click)="saveSetting()">저장</button>
+	
 </ion-content>

@@ -6,24 +6,27 @@
 </ion-header>
 -->
 <ion-content padding>
-	<div *ngFor="let solome of solomes"  >
+	<div text-center padding-vertical padding-horizontal *ngIf="!solomes.length">
+		<label>친구의 친구, 솔로미</label>
+	</div>
+	<div *ngFor="let solome of solomes">
 		<ion-card >
 			<ion-item >
 				<ion-avatar item-start>
-					<img src="{{solome.friend[0].picture_url}}">
+					<img src="{{solome.friend.picture_url?solome.friend.picture_url:'assets/imgs/person.png'}}">
 				</ion-avatar>
-				<h2>{{solome.friend[0].name}}님의 친구</h2>
+				<h2>{{solome.friend.name}}님의 친구</h2>
 				<p>
-					<label *ngFor="let tag of solome.tags">#{{tag}}</label>
+					<label *ngFor="let tag of solome.profile.tags">#{{tag}}</label>
 				</p>
 				<button ion-button clear item-end></button>
 			</ion-item>
-			<img src="{{solome.picture_url?solome.picture_url:'assets/imgs/person.png'}}"/>
+			<img src="{{solome.profile.picture_url?solome.profile.picture_url:'assets/imgs/person.png'}}"/>
 			<ion-card-content>
 				<ion-card-title>
-					{{solome.name}} 님
+					{{solome.profile.name}} 님
 				</ion-card-title>	
-				<p>{{solome.description}}</p>
+				<p>{{solome.profile.description}}</p>
 			</ion-card-content>			
 			<ion-row>
 			<ion-col col-6>
